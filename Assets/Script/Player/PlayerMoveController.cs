@@ -18,6 +18,8 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField, Tooltip("歩行速度")] float _walkSpeed;
     [SerializeField, Tooltip("ジャンプ力")] float _jumpPower;
     [SerializeField, Tooltip("ジャンプ中にかける重力")] float _gravity;
+
+    public Vector3 CursorPos => _cursorPos;
     // Start is called before the first frame update
     void Start()
     {
