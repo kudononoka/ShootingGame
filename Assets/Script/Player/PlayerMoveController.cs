@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Ground))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveController : MonoBehaviour
 {
@@ -13,11 +14,15 @@ public class PlayerMoveController : MonoBehaviour
     /////////////////////////////////////////////////////////////////////
     
     Rigidbody _rb;
+    Ground _ground;
     [SerializeField, Tooltip("歩行速度")] float _walkSpeed;
+    [SerializeField, Tooltip("ジャンプ力")] float _jumpPower;
+    [SerializeField, Tooltip("ジャンプ中にかける重力")] float _gravity;
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _ground = GetComponent<Ground>();
     }
 
     // Update is called once per frame
@@ -42,5 +47,17 @@ public class PlayerMoveController : MonoBehaviour
         float z = Input.GetAxisRaw("Vertical");
         _rb.velocity = transform.rotation * new Vector3(0, 0, z * _walkSpeed);
         _frontframeCursorPos = _cursorPos;
+
+        if(_ground.IsGround)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            }
+        }
+        else
+        {
+            _rb.AddForce(Vector3.down * _gravity);
+        }
     }
 }
