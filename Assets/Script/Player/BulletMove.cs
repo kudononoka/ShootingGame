@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class BulletMove : MonoBehaviour
 {
-    PlayerMoveController _playerMoveScript;
-    Quaternion _forwerd;
+    Vector3 _playerforwerd;
+    Quaternion _dre;
     [SerializeField, Tooltip("スピード")] float _moveSpeed;
     Rigidbody _rb;
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _playerMoveScript = GameObject.Find("Player").GetComponent<PlayerMoveController>();
-        _forwerd = Quaternion.LookRotation(_playerMoveScript.CursorPos);
+        _playerforwerd = GameObject.FindWithTag("Player").transform.forward.normalized;
+        Destroy(gameObject, 2f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        _rb.velocity = _forwerd * new Vector3(0,0,_moveSpeed);
+        _dre = Quaternion.LookRotation(_playerforwerd);
+        _rb.velocity =  _dre * new Vector3(0,0,_moveSpeed);
     }
 }
